@@ -1,0 +1,86 @@
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row">
+
+            <div class="colorlib-product">
+                <div class="container">
+                    @guest
+                        <div class="row row-pb-lg product-detail-wrap">
+                            <ul>
+                                {{ $package->packages }}
+                                <br>
+                                {{ $package->include_test }}
+                                <br>
+                                {{ $package->charges }}
+                                <br>
+                                {{ $package->image }}
+                                {{-- {{$package->test_name }}
+                         {{ dd($package); }} --}}
+
+                                {{-- @foreach ($package as $item)
+                             {{$item->packages }}
+                         @endforeach --}}
+                                @foreach ((array) $package->test_name as $value)
+                                    <li>{{ $value }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div>
+                            <form action="{{ route('purchase_pack') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="packages" value="{{ $package->packages }}">
+                                <input type="hidden" name="include_test" value="{{ $package->include_test }}">
+
+                                <input type="hidden" name="charges" value="{{ $package->charges }}">
+
+                                <input type="hidden" name="image" value="{{ $package->image }}">
+
+
+                                <button type="submit" class="btn btn-primary">Add To Cart</button>
+                            </form>
+                        </div>
+                    @endguest
+
+                    @auth
+                        <div class="row row-pb-lg product-detail-wrap">
+                            <ul>
+                                {{ $package->packages }}
+                                {{ $package->include_test }}
+                                {{ $package->charges }}
+                                {{ $package->image }}
+                                {{-- {{$package->test_name }}
+                         {{ dd($package); }} --}}
+
+                                {{-- @foreach ($package as $item)
+                             {{$item->packages }}
+                         @endforeach --}}
+                                @foreach ((array) $package->test_name as $value)
+                                    <li>{{ $value }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div>
+                            {{-- {{ dd($newProduct) }} --}}
+                            <form action="{{ route('store_cart', $package->id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+
+                                <input type="hidden" name="packages" value="{{ $package->packages }}">
+                                <input type="hidden" name="include_test" value="{{ $package->include_test }}">
+
+                                <input type="hidden" name="charges" value="{{ $package->charges }}">
+
+                                <input type="hidden" name="image" value="{{ $package->image }}">
+
+
+                                <button type="submit" class="btn btn-primary">Add To Cart</button>
+                            </form>
+                        </div>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
